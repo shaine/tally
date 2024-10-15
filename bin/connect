@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then
+    COMMAND="tmux attach -t web"
+else
+    COMMAND="$1"
+fi
+
+# Get the current directory name
+DIR_NAME=$(basename $(pwd))
+
+# Look for a matching container
+CONTAINER_NAME=$(sudo docker ps --format "{{.Names}}" | grep -E "^${DIR_NAME}-dev")
+
+if [ -z "$CONTAINER_NAME" ]; then
+    echo "No matching container found for directory: $DIR_NAME"
+    exit 1
+fi
+
+sudo docker exec -it $CONTAINER_NAME /bin/zsh -c "source ~/.zshrc; $COMMAND"

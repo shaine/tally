@@ -1,0 +1,27 @@
+services:
+  dev:
+    image: dev-elixir:latest
+    volumes:
+      - .:/app
+      - /home/shaine/.fzf:/home/dev/.fzf
+      - /home/shaine/.config/nvim:/home/dev/.config/nvim
+      - /home/shaine/.agignore:/home/dev/.agignore
+      - /home/shaine/.zshrc:/home/dev/.zshrc
+      - /home/shaine/.tmux.conf:/home/dev/.tmux.conf
+      - /home/shaine/.oh-my-zsh:/home/dev/.oh-my-zsh
+      - /home/shaine/.omz-custom:/home/dev/.omz-custom
+    depends_on:
+      - db
+    command: ["/entrypoint.sh"]
+    ports:
+      - "3999:4000"
+    environment:
+      - CONTAINER_NAME=${CONTAINER_NAME}
+      - LANG=C.UTF-8
+    user: 1000:1000
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres

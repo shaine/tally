@@ -1,0 +1,9 @@
+#!/bin/bash
+
+fswatch -o lib/ | while read -r; do
+  mix dialyzer --quiet-with-result;
+  sleep 3;
+  while read -r -d "" -t 0.1;
+  do :;
+  done;
+done
