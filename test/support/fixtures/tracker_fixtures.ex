@@ -5,18 +5,18 @@ defmodule Tally.TrackerFixtures do
   """
 
   @doc """
-  Generate a category.
+  Generate a metric.
   """
-  def category_fixture(attrs \\ %{}) do
-    {:ok, category} =
+  def metric_fixture(attrs \\ %{}) do
+    {:ok, metric} =
       attrs
       |> Enum.into(%{
         description: "some description",
         name: "some name"
       })
-      |> Tally.Tracker.create_category()
+      |> Tally.Tracker.create_metric()
 
-    category
+    metric
   end
 
   @doc """

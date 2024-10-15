@@ -1,0 +1,8 @@
+<.header>
+  Edit Metric <%= @metric.id %>
+  <:subtitle>Use this form to manage metric records in your database.</:subtitle>
+</.header>
+
+<.metric_form changeset={@changeset} action={~p"/metrics/#{@metric}"} />
+
+<.back navigate={~p"/metrics"}>Back to metrics</.back>

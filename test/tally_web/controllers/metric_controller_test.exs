@@ -1,9 +1,9 @@
-defmodule TallyWeb.CategoryControllerTest do
+defmodule TallyWeb.MetricControllerTest do
   use TallyWeb.ConnCase
 
   import Tally.TrackerFixtures
 
-  alias Tally.Tracker.Category
+  alias Tally.Tracker.Metric
 
   @create_attrs %{
     name: "some name",
@@ -20,18 +20,18 @@ defmodule TallyWeb.CategoryControllerTest do
   end
 
   describe "index" do
-    test "lists all categories", %{conn: conn} do
-      conn = get(conn, ~p"/api/categories")
+    test "lists all metrics", %{conn: conn} do
+      conn = get(conn, ~p"/api/metrics")
       assert json_response(conn, 200)["data"] == []
     end
   end
 
-  describe "create category" do
-    test "renders category when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"/api/categories", category: @create_attrs)
+  describe "create metric" do
+    test "renders metric when data is valid", %{conn: conn} do
+      conn = post(conn, ~p"/api/metrics", metric: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, ~p"/api/categories/#{id}")
+      conn = get(conn, ~p"/api/metrics/#{id}")
 
       assert %{
                "id" => ^id,
@@ -41,19 +41,22 @@ defmodule TallyWeb.CategoryControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, ~p"/api/categories", category: @invalid_attrs)
+      conn = post(conn, ~p"/api/metrics", metric: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "update category" do
-    setup [:create_category]
+  describe "update metric" do
+    setup [:create_metric]
 
-    test "renders category when data is valid", %{conn: conn, category: %Category{id: id} = category} do
-      conn = put(conn, ~p"/api/categories/#{category}", category: @update_attrs)
+    test "renders metric when data is valid", %{
+      conn: conn,
+      metric: %Metric{id: id} = metric
+    } do
+      conn = put(conn, ~p"/api/metrics/#{metric}", metric: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, ~p"/api/categories/#{id}")
+      conn = get(conn, ~p"/api/metrics/#{id}")
 
       assert %{
                "id" => ^id,
@@ -62,27 +65,27 @@ defmodule TallyWeb.CategoryControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn, category: category} do
-      conn = put(conn, ~p"/api/categories/#{category}", category: @invalid_attrs)
+    test "renders errors when data is invalid", %{conn: conn, metric: metric} do
+      conn = put(conn, ~p"/api/metrics/#{metric}", metric: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "delete category" do
-    setup [:create_category]
+  describe "delete metric" do
+    setup [:create_metric]
 
-    test "deletes chosen category", %{conn: conn, category: category} do
-      conn = delete(conn, ~p"/api/categories/#{category}")
+    test "deletes chosen metric", %{conn: conn, metric: metric} do
+      conn = delete(conn, ~p"/api/metrics/#{metric}")
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, ~p"/api/categories/#{category}")
+        get(conn, ~p"/api/metrics/#{metric}")
       end
     end
   end
 
-  defp create_category(_) do
-    category = category_fixture()
-    %{category: category}
+  defp create_metric(_) do
+    metric = metric_fixture()
+    %{metric: metric}
   end
 end

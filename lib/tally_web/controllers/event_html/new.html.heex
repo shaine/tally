@@ -3,6 +3,11 @@
   <:subtitle>Use this form to manage event records in your database.</:subtitle>
 </.header>
 
-<.event_form changeset={@changeset} action={~p"/events"} />
+<.event_form
+  changeset={@changeset}
+  action={~p"/metrics/#{Ecto.Changeset.get_field(@changeset, :metric_id)}/events"}
+/>
 
-<.back navigate={~p"/events"}>Back to events</.back>
+<.back navigate={~p"/metrics/#{Ecto.Changeset.get_field(@changeset, :metric_id)}/events"}>
+  Back to events
+</.back>

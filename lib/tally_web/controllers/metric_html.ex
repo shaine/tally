@@ -1,13 +1,13 @@
-defmodule TallyWeb.CategoryHTML do
+defmodule TallyWeb.MetricHTML do
   use TallyWeb, :html
 
-  embed_templates "category_html/*"
+  embed_templates "metric_html/*"
 
   @doc """
-  Renders a category form.
+  Renders a metric form.
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def category_form(assigns)
+  def metric_form(assigns)
 end

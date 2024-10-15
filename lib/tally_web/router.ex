@@ -19,7 +19,7 @@ defmodule TallyWeb.Router do
 
     get "/", PageController, :home
 
-    resources "/categories", CategoryController do
+    resources "/metrics", MetricController do
       resources "/events", EventController, only: [:index, :new, :create]
     end
 
@@ -30,7 +30,7 @@ defmodule TallyWeb.Router do
   scope "/api", TallyWeb do
     pipe_through :api
 
-    resources "/categories", CategoryController do
+    resources "/metrics", MetricController do
       resources "/events", EventController, only: [:index, :new, :create]
     end
 

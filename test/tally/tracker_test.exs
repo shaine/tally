@@ -3,59 +3,59 @@ defmodule Tally.TrackerTest do
 
   alias Tally.Tracker
 
-  describe "categories" do
-    alias Tally.Tracker.Category
+  describe "metrics" do
+    alias Tally.Tracker.Metric
 
     import Tally.TrackerFixtures
 
     @invalid_attrs %{name: nil, description: nil}
 
-    test "list_categories/0 returns all categories" do
-      category = category_fixture()
-      assert Tracker.list_categories() == [category]
+    test "list_metrics/0 returns all metrics" do
+      metric = metric_fixture()
+      assert Tracker.list_metrics() == [metric]
     end
 
-    test "get_category!/1 returns the category with given id" do
-      category = category_fixture()
-      assert Tracker.get_category!(category.id) == category
+    test "get_metric!/1 returns the metric with given id" do
+      metric = metric_fixture()
+      assert Tracker.get_metric!(metric.id) == metric
     end
 
-    test "create_category/1 with valid data creates a category" do
+    test "create_metric/1 with valid data creates a metric" do
       valid_attrs = %{name: "some name", description: "some description"}
 
-      assert {:ok, %Category{} = category} = Tracker.create_category(valid_attrs)
-      assert category.name == "some name"
-      assert category.description == "some description"
+      assert {:ok, %Metric{} = metric} = Tracker.create_metric(valid_attrs)
+      assert metric.name == "some name"
+      assert metric.description == "some description"
     end
 
-    test "create_category/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Tracker.create_category(@invalid_attrs)
+    test "create_metric/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Tracker.create_metric(@invalid_attrs)
     end
 
-    test "update_category/2 with valid data updates the category" do
-      category = category_fixture()
+    test "update_metric/2 with valid data updates the metric" do
+      metric = metric_fixture()
       update_attrs = %{name: "some updated name", description: "some updated description"}
 
-      assert {:ok, %Category{} = category} = Tracker.update_category(category, update_attrs)
-      assert category.name == "some updated name"
-      assert category.description == "some updated description"
+      assert {:ok, %metrics)
+      assert metric.name == "some updated name"
+      assert metric.description == "some updated description"
     end
 
-    test "update_category/2 with invalid data returns error changeset" do
-      category = category_fixture()
-      assert {:error, %Ecto.Changeset{}} = Tracker.update_category(category, @invalid_attrs)
-      assert category == Tracker.get_category!(category.id)
+    test "update_metric/2 with invalid data returns error changeset" do
+      metric = metric_fixture()
+      assert {:error, %Ecto.Changeset{}} = Tracker.update_metric(metric, @invalid_attrs)
+      assert metric == Tracker.get_metric!(metric.id)
     end
 
-    test "delete_category/1 deletes the category" do
-      category = category_fixture()
-      assert {:ok, %Category{}} = Tracker.delete_category(category)
-      assert_raise Ecto.NoResultsError, fn -> Tracker.get_category!(category.id) end
+    test "delete_metric/1 deletes the metric" do
+      metric = metric_fixture()
+      assert {:ok, %Metric{}} = Tracker.delete_metric(metric)
+      assert_raise Ecto.NoResultsError, fn -> Tracker.get_metric!(metric.id) end
     end
 
-    test "change_category/1 returns a category changeset" do
-      category = category_fixture()
-      assert %Ecto.Changeset{} = Tracker.change_category(category)
+    test "change_metric/1 returns a metric changeset" do
+      metric = metric_fixture()
+      assert %Ecto.Changeset{} = Tracker.change_metric(metric)
     end
   end
 

@@ -5,4 +5,4 @@
 
 <.event_form changeset={@changeset} action={~p"/events/#{@event}"} />
 
-<.back navigate={~p"/events"}>Back to events</.back>
+<.back navigate={~p"/metrics/#{@event.metric_id}/events"}>Back to events</.back>

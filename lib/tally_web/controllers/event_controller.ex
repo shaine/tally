@@ -4,18 +4,18 @@ defmodule TallyWeb.EventController do
   alias Tally.Tracker
   alias Tally.Tracker.Event
 
-  def index(conn, %{"category_id" => category_id}) do
-    events = Tracker.list_events(%{category_id: category_id})
-    render(conn, :index, events: events)
+  def index(conn, %{"metric_id" => metric_id}) do
+    events = Tracker.list_events(%{metric_id: metric_id})
+    render(conn, :index, events: events, metric_id: metric_id)
   end
 
-  def new(conn, %{"category_id" => category_id}) do
-    changeset = Tracker.change_event(%Event{category_id: category_id})
+  def new(conn, %{"metric_id" => metric_id}) do
+    changeset = Tracker.change_event(%Event{metric_id: metric_id})
     render(conn, :new, changeset: changeset)
   end
 
-  def create(conn, %{"category_id" => category_id, "event" => event_params}) do
-    case Tracker.create_event(%{event_params | category_id: category_id}) do
+  def create(conn, %{"metric_id" => metric_id, "event" => event_params}) do
+    case Tracker.create_event(Map.put(event_params, "metric_id", metric_id)) do
       {:ok, event} ->
         conn
         |> put_flash(:info, "Event created successfully.")
@@ -57,6 +57,6 @@ defmodule TallyWeb.EventController do
 
     conn
     |> put_flash(:info, "Event deleted successfully.")
-    |> redirect(to: ~p"/categories/#{event.category_id}/events")
+    |> redirect(to: ~p"/metrics/#{event.metric_id}/events")
   end
 end

@@ -5,7 +5,7 @@ defmodule Tally.Tracker.Event do
   schema "events" do
     field :name, :string
     field :occurred_at, :naive_datetime
-    field :category_id, :id
+    field :metric_id, :id
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +13,7 @@ defmodule Tally.Tracker.Event do
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:name, :occurred_at])
-    |> validate_required([:name, :occurred_at])
+    |> cast(attrs, [:name, :occurred_at, :metric_id])
+    |> validate_required([:name, :occurred_at, :metric_id])
   end
 end

@@ -1,8 +1,8 @@
-defmodule Tally.Tracker.Category do
+defmodule Tally.Tracker.Metric do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "categories" do
+  schema "metrics" do
     field :name, :string
     field :description, :string
 
@@ -10,8 +10,8 @@ defmodule Tally.Tracker.Category do
   end
 
   @doc false
-  def changeset(category, attrs) do
-    category
+  def changeset(metric, attrs) do
+    metric
     |> cast(attrs, [:name, :description])
     |> validate_required([:name, :description])
   end

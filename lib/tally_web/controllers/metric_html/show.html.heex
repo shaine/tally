@@ -1,0 +1,16 @@
+<.header>
+  Metric <%= @metric.id %>
+  <:subtitle>This is a metric record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/metrics/#{@metric}/edit"}>
+      <.button>Edit metric</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @metric.name %></:item>
+  <:item title="Description"><%= @metric.description %></:item>
+</.list>
+
+<.back navigate={~p"/metrics"}>Back to metrics</.back>

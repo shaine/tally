@@ -1,0 +1,24 @@
+<.header>
+  Listing metrics
+  <:actions>
+    <.link href={~p"/metrics/new"}>
+      <.button>New Metric</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="metrics" rows={@metrics} row_click={&JS.navigate(~p"/metrics/#{&1}")}>
+  <:col :let={metric} label="Name"><%= metric.name %></:col>
+  <:col :let={metric} label="Description"><%= metric.description %></:col>
+  <:action :let={metric}>
+    <div class="sr-only">
+      <.link navigate={~p"/metrics/#{metric}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/metrics/#{metric}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={metric}>
+    <.link href={~p"/metrics/#{metric}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
