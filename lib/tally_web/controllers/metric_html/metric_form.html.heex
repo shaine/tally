@@ -4,6 +4,14 @@
   </.error>
   <.input field={f[:name]} type="text" label="Name" />
   <.input field={f[:description]} type="text" label="Description" />
+  <.input
+    field={f[:type]}
+    type="select"
+    label="Type"
+    options={
+      Enum.map(Tally.Tracker.Metric.types(), fn {k, v} -> {"#{k}: #{v}", k} end) |> Enum.into([])
+    }
+  />
   <:actions>
     <.button>Save Metric</.button>
   </:actions>
