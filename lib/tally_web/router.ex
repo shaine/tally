@@ -19,22 +19,24 @@ defmodule TallyWeb.Router do
 
     get "/", PageController, :home
 
-    resources "/metrics", MetricController do
-      resources "/events", EventController, only: [:index, :new, :create]
-    end
+    live "/metrics", MetricLive.Index, :index
+    live "/metrics/new", MetricLive.Index, :new
+    live "/metrics/:id/edit", MetricLive.Index, :edit
 
-    resources "/events", EventController, except: [:index, :new, :create]
+    live "/metrics/:id", MetricLive.Show, :show
+    live "/metrics/:id/show/edit", MetricLive.Show, :edit
+
+    live "/events", EventLive.Index, :index
+    live "/events/new", EventLive.Index, :new
+    live "/events/:id/edit", EventLive.Index, :edit
+
+    live "/events/:id", EventLive.Show, :show
+    live "/events/:id/show/edit", EventLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
   scope "/api", TallyWeb do
     pipe_through :api
-
-    resources "/metrics", MetricController do
-      resources "/events", EventController, only: [:index, :new, :create]
-    end
-
-    resources "/events", EventController, except: [:index, :new, :create]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
