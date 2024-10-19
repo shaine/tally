@@ -17,7 +17,7 @@ defmodule TallyWeb.Router do
   scope "/", TallyWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", PageLive.Home
 
     live "/metrics", MetricLive.Index, :index
     live "/metrics/new", MetricLive.Index, :new
@@ -25,9 +25,9 @@ defmodule TallyWeb.Router do
 
     live "/metrics/:id", MetricLive.Show, :show
     live "/metrics/:id/show/edit", MetricLive.Show, :edit
+    live "/metrics/:id/events/new", MetricLive.Show, :new_event
 
     live "/events", EventLive.Index, :index
-    live "/events/new", EventLive.Index, :new
     live "/events/:id/edit", EventLive.Index, :edit
 
     live "/events/:id", EventLive.Show, :show

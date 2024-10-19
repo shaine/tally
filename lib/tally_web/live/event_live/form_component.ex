@@ -19,6 +19,7 @@ defmodule TallyWeb.EventLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input field={@form[:metric_id]} value={@metric_id} type="hidden" />
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:occurred_at]} type="datetime-local" label="Occurred at" />
         <:actions>
@@ -63,6 +64,8 @@ defmodule TallyWeb.EventLive.FormComponent do
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
+
+  defp save_event(socket, :new_event, event_params), do: save_event(socket, :new, event_params)
 
   defp save_event(socket, :new, event_params) do
     case Tracker.create_event(event_params) do

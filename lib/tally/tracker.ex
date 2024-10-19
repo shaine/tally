@@ -18,7 +18,13 @@ defmodule Tally.Tracker do
 
   """
   def list_metrics do
-    Repo.all(Metric)
+    query =
+      from m in Metric,
+        left_join: e in assoc(m, :events),
+        group_by: m.id,
+        select: %{m | events_count: count(e.id)}
+
+    Repo.all(query)
   end
 
   @doc """
@@ -35,7 +41,16 @@ defmodule Tally.Tracker do
       ** (Ecto.NoResultsError)
 
   """
-  def get_metric!(id), do: Repo.get!(Metric, id)
+  def get_metric!(id) do
+    query =
+      from m in Metric,
+        left_join: e in assoc(m, :events),
+        group_by: m.id,
+        select: %{m | events_count: count(e.id)},
+        where: m.id == ^id
+
+    Repo.one!(query)
+  end
 
   @doc """
   Creates a metric.

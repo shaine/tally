@@ -2,6 +2,7 @@ defmodule TallyWeb.MetricLive.Show do
   use TallyWeb, :live_view
 
   alias Tally.Tracker
+  alias Tally.Tracker.Event
 
   @impl true
   def mount(_params, _session, socket) do
@@ -9,13 +10,40 @@ defmodule TallyWeb.MetricLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:metric, Tracker.get_metric!(id))}
+     |> assign(:metric, Tracker.get_metric!(id))
+     |> stream(:events, Tracker.list_events(%{metric_id: id}))
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
-  defp page_title(:show), do: "Show Metric"
-  defp page_title(:edit), do: "Edit Metric"
+  defp apply_action(socket, :edit, _params) do
+    socket
+    |> assign(:page_title, "Edit Metric")
+  end
+
+  defp apply_action(socket, :show, _params) do
+    socket
+    |> assign(:page_title, "Show Metric")
+  end
+
+  defp apply_action(socket, :new_event, _params) do
+    socket
+    |> assign(:page_title, "New Event")
+    |> assign(:event, %Event{})
+  end
+
+  @impl true
+  def handle_info({TallyWeb.EventLive.FormComponent, {:saved, event}}, socket) do
+    {:noreply, stream_insert(socket, :events, event)}
+  end
+
+  @impl true
+  def handle_event("delete_event", %{"id" => id}, socket) do
+    event = Tracker.get_event!(id)
+    {:ok, _} = Tracker.delete_event(event)
+
+    {:noreply, stream_delete(socket, :events, event)}
+  end
 end
