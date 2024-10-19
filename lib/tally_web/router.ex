@@ -27,9 +27,6 @@ defmodule TallyWeb.Router do
     live "/metrics/:id/show/edit", MetricLive.Show, :edit
     live "/metrics/:id/events/new", MetricLive.Show, :new_event
 
-    live "/events", EventLive.Index, :index
-    live "/events/:id/edit", EventLive.Index, :edit
-
     live "/events/:id", EventLive.Show, :show
     live "/events/:id/show/edit", EventLive.Show, :edit
   end

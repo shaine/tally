@@ -28,6 +28,13 @@ defmodule TallyWeb.MetricLive.FormComponent do
           prompt="Choose a value"
           options={Ecto.Enum.values(Tally.Tracker.Metric, :type)}
         />
+        <.input
+          field={@form[:scale]}
+          type="select"
+          label="Scale"
+          prompt="Choose a value"
+          options={Ecto.Enum.values(Tally.Tracker.Metric, :scale)}
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Metric</.button>
         </:actions>
