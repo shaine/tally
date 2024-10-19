@@ -22,13 +22,6 @@ defmodule TallyWeb.MetricLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
         <.input
-          field={@form[:type]}
-          type="select"
-          label="Type"
-          prompt="Choose a value"
-          options={Ecto.Enum.values(Tally.Tracker.Metric, :type)}
-        />
-        <.input
           field={@form[:scale]}
           type="select"
           label="Scale"
