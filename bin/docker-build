@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e # Abort on error
+
+. ./.env
+
+echo "Building docker image"
+sudo docker build -t tally .
+
+echo "Tagging for registry"
+sudo docker tag tally:latest registry.squidtree.com/tally
+
+echo "Pushing to registry"
+sudo docker push registry.squidtree.com/tally:latest
