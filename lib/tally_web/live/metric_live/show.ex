@@ -34,6 +34,12 @@ defmodule TallyWeb.MetricLive.Show do
     |> assign(:event, %Event{metric_id: id})
   end
 
+  defp apply_action(socket, :edit_event, %{"event_id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Event")
+    |> assign(:event, Tracker.get_event!(id))
+  end
+
   @impl true
   def handle_info({TallyWeb.EventLive.FormComponent, {:saved, event}}, socket) do
     {:noreply, stream_insert(socket, :events, event)}

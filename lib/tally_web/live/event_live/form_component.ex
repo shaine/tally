@@ -50,7 +50,7 @@ defmodule TallyWeb.EventLive.FormComponent do
     save_event(socket, socket.assigns.action, event_params)
   end
 
-  defp save_event(socket, :edit, event_params) do
+  defp save_event(socket, :edit_event, event_params) do
     case Tracker.update_event(socket.assigns.event, event_params) do
       {:ok, event} ->
         notify_parent({:saved, event})
@@ -65,9 +65,7 @@ defmodule TallyWeb.EventLive.FormComponent do
     end
   end
 
-  defp save_event(socket, :new_event, event_params), do: save_event(socket, :new, event_params)
-
-  defp save_event(socket, :new, event_params) do
+  defp save_event(socket, :new_event, event_params) do
     case Tracker.create_event(event_params) do
       {:ok, event} ->
         notify_parent({:saved, event})

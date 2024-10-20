@@ -26,9 +26,7 @@ defmodule TallyWeb.Router do
     live "/metrics/:id", MetricLive.Show, :show
     live "/metrics/:id/show/edit", MetricLive.Show, :edit
     live "/metrics/:id/events/new", MetricLive.Show, :new_event
-
-    live "/events/:id", EventLive.Show, :show
-    live "/events/:id/show/edit", EventLive.Show, :edit
+    live "/metrics/:id/events/:event_id/edit", MetricLive.Show, :edit_event
   end
 
   # Other scopes may use custom stacks.
