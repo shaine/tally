@@ -1,4 +1,6 @@
 defmodule Tally.Tracker do
+  @tz "America/Denver"
+
   @moduledoc """
   The Tracker context.
   """
@@ -23,6 +25,52 @@ defmodule Tally.Tracker do
         left_join: e in assoc(m, :events),
         group_by: m.id,
         select: %{m | events_count: count(e.id)}
+
+    Repo.all(query)
+  end
+
+  @doc """
+  Returns the list of metrics.
+
+  ## Examples
+
+      iex> list_current_metrics()
+      [%Metric{}, ...]
+
+  """
+  def list_current_metrics do
+    day_limit = start_of_day()
+    week_limit = start_of_week()
+    month_limit = start_of_month()
+    now = DateTime.utc_now()
+
+    query =
+      from m in Metric,
+        left_join: e in assoc(m, :events),
+        group_by: m.id,
+        select: %{
+          m
+          | events_count: count(e.id),
+            events_within_range_count:
+              count(
+                fragment(
+                  """
+                    CASE
+                      WHEN scale = 'day' AND occurred_at > ? AND occurred_at <= ? THEN 1
+                      WHEN scale = 'week' AND occurred_at > ? AND occurred_at <= ? THEN 1
+                      WHEN scale = 'month' AND occurred_at > ? AND occurred_at <= ? THEN 1
+                      ELSE NULL
+                    END
+                  """,
+                  ^day_limit,
+                  ^now,
+                  ^week_limit,
+                  ^now,
+                  ^month_limit,
+                  ^now
+                )
+              )
+        }
 
     Repo.all(query)
   end
@@ -211,5 +259,28 @@ defmodule Tally.Tracker do
   """
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
+  end
+
+  defp start_of_day do
+    DateTime.now!(@tz)
+    |> DateTime.to_date()
+    |> DateTime.new!(~T[00:00:00], @tz)
+    |> DateTime.shift_zone!("Etc/UTC")
+  end
+
+  defp start_of_week do
+    DateTime.now!(@tz)
+    |> DateTime.to_date()
+    |> Date.beginning_of_week()
+    |> DateTime.new!(~T[00:00:00], @tz)
+    |> DateTime.shift_zone!("Etc/UTC")
+  end
+
+  defp start_of_month do
+    DateTime.now!(@tz)
+    |> DateTime.to_date()
+    |> Date.beginning_of_month()
+    |> DateTime.new!(~T[00:00:00], @tz)
+    |> DateTime.shift_zone!("Etc/UTC")
   end
 end

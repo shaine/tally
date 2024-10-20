@@ -11,6 +11,7 @@ defmodule Tally.Tracker.Metric do
     field :description, :string
     field :scale, Ecto.Enum, values: @scales
     field :events_count, :integer, virtual: true
+    field :events_within_range_count, :integer, virtual: true
 
     has_many :events, Event, on_delete: :delete_all
 
