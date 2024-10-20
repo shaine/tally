@@ -7,6 +7,7 @@ defmodule Tally.Tracker.Event do
   schema "events" do
     field :name, :string
     field :occurred_at, :utc_datetime
+    field :metadata, :map
 
     belongs_to :metric, Metric
 

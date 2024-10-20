@@ -10,6 +10,8 @@ defmodule Tally.Tracker.Metric do
     field :name, :string
     field :description, :string
     field :scale, Ecto.Enum, values: @scales
+    field :event_metadata_schema, :map
+
     field :events_count, :integer, virtual: true
     field :events_within_range_count, :integer, virtual: true
 
