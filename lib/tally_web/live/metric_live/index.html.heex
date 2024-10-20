@@ -13,7 +13,6 @@
   row_click={fn {_id, metric} -> JS.navigate(~p"/metrics/#{metric}") end}
 >
   <:col :let={{_id, metric}} label="Name"><%= metric.name %></:col>
-  <:col :let={{_id, metric}} label="Description"><%= metric.description %></:col>
   <:col :let={{_id, metric}} label="Current events"><%= metric.events_within_range_count %></:col>
   <:col :let={{_id, metric}} label="Total events"><%= metric.events_count %></:col>
   <:col :let={{_id, metric}} label="Scale"><%= metric.scale %></:col>
