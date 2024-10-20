@@ -1,10 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 set -e # Abort on error
 
-. ./.env
+set -a
+source .env
+set +a
 
 echo "Building docker image"
-sudo docker build -t tally .
+sudo docker build --build-arg SECRET_KEY_BASE="$SECRET_KEY_BASE" --build-arg DATABASE_URL="$DATABASE_URL" -t tally .
 
 echo "Tagging for registry"
 sudo docker tag tally:latest registry.squidtree.com/tally
