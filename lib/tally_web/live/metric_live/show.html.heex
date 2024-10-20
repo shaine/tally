@@ -1,21 +1,10 @@
 <.header>
-  Metric <%= @metric.id %>
-  <:subtitle>This is a metric record from your database.</:subtitle>
+  <%= @metric.name %>
+  <:subtitle><%= @metric.description %></:subtitle>
   <:actions>
     <.link patch={~p"/metrics/#{@metric}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit metric</.button>
+      <.button>Edit Metric</.button>
     </.link>
-  </:actions>
-</.header>
-
-<.list>
-  <:item title="Name"><%= @metric.name %></:item>
-  <:item title="Description"><%= @metric.description %></:item>
-</.list>
-
-<.header>
-  Events
-  <:actions>
     <.link patch={~p"/metrics/#{@metric}/events/new"}>
       <.button>New Event</.button>
     </.link>
@@ -76,6 +65,5 @@
     action={@live_action}
     event={@event}
     patch={~p"/metrics/#{@metric}"}
-    metric_id={@metric.id}
   />
 </.modal>

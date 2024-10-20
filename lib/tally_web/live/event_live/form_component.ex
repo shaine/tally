@@ -19,7 +19,7 @@ defmodule TallyWeb.EventLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:metric_id]} value={@metric_id} type="hidden" />
+        <.input field={@form[:metric_id]} type="hidden" />
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:occurred_at]} type="datetime-local" label="Occurred at" />
         <:actions>

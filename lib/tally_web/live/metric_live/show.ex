@@ -28,10 +28,10 @@ defmodule TallyWeb.MetricLive.Show do
     |> assign(:page_title, "Show Metric")
   end
 
-  defp apply_action(socket, :new_event, _params) do
+  defp apply_action(socket, :new_event, %{"id" => id}) do
     socket
     |> assign(:page_title, "New Event")
-    |> assign(:event, %Event{})
+    |> assign(:event, %Event{metric_id: id})
   end
 
   @impl true
