@@ -20,25 +20,6 @@ defmodule Tally.Tracker do
 
   """
   def list_metrics do
-    query =
-      from m in Metric,
-        left_join: e in assoc(m, :events),
-        group_by: m.id,
-        select: %{m | events_count: count(e.id)}
-
-    Repo.all(query)
-  end
-
-  @doc """
-  Returns the list of metrics.
-
-  ## Examples
-
-      iex> list_current_metrics()
-      [%Metric{}, ...]
-
-  """
-  def list_current_metrics do
     day_limit = start_of_day()
     week_limit = start_of_week()
     month_limit = start_of_month()

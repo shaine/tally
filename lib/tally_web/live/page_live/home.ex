@@ -5,7 +5,7 @@ defmodule TallyWeb.PageLive.Home do
 
   @impl true
   def mount(_params, _session, socket) do
-    metrics = Tracker.list_current_metrics()
+    metrics = Tracker.list_metrics()
 
     {:ok, assign(socket, :metrics, metrics)}
   end
@@ -21,7 +21,7 @@ defmodule TallyWeb.PageLive.Home do
   def handle_event("click", %{"id" => id, "name" => name}, socket) do
     {:ok, _} = Tracker.create_event(%{name: name, metric_id: id, occurred_at: DateTime.utc_now()})
 
-    metrics = Tracker.list_current_metrics()
+    metrics = Tracker.list_metrics()
 
     {:noreply, assign(socket, :metrics, metrics)}
   end
