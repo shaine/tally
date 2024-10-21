@@ -22,7 +22,7 @@ defmodule TallyWeb.EventLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:occurred_at]} type="datetime-local" label="Occurred at" />
 
-        <%= for {field, %{"type" => type, "value" => value}} <- @form[:metadata].value do %>
+        <%= for {field, %{"type" => type, "value" => value}} <- @form[:metadata].value || %{} do %>
           <.input
             name={"#{@form[:metadata].name}[#{field}][value]"}
             label={field}
