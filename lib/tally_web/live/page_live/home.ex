@@ -32,8 +32,8 @@ defmodule TallyWeb.PageLive.Home do
      end}
   end
 
-  defp apply_action(socket, :create_from_click, %{"id" => id, "name" => name}) do
-    {:ok, _} = Tracker.create_event(%{name: name, metric_id: id, occurred_at: DateTime.utc_now()})
+  defp apply_action(socket, :create_from_click, %{"id" => id}) do
+    {:ok, _} = Tracker.create_event(%{metric_id: id, occurred_at: DateTime.utc_now()})
 
     metrics = Tracker.list_metrics()
 

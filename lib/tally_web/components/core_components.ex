@@ -539,6 +539,7 @@ defmodule TallyWeb.CoreComponents do
       </.list>
   """
   attr :title, :string, required: false, default: ""
+  attr :parent_class, :string, required: false, default: "mt-14"
 
   slot :item, required: true do
     attr :title, :string, required: true
@@ -546,7 +547,7 @@ defmodule TallyWeb.CoreComponents do
 
   def list(assigns) do
     ~H"""
-    <div class="mt-14">
+    <div class={@parent_class}>
       <h2 :if={@title}><%= @title %></h2>
       <dl class="-my-4 divide-y divide-zinc-100">
         <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
