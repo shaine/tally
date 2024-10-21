@@ -17,3 +17,14 @@
     </.link>
   </div>
 </div>
+
+<.modal :if={@mode in [:new_event]} id="event-modal" show on_cancel={JS.patch(~p"/")}>
+  <.live_component
+    module={TallyWeb.EventLive.FormComponent}
+    id={:new}
+    action={:new_event}
+    event={@event}
+    patch={~p"/"}
+    metric={@metric}
+  />
+</.modal>

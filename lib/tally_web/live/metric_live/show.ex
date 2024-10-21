@@ -34,7 +34,11 @@ defmodule TallyWeb.MetricLive.Show do
 
     socket
     |> assign(:page_title, "New Event")
-    |> assign(:event, %Event{metric_id: metric.id, metadata: metadata})
+    |> assign(:event, %Event{
+      metric_id: metric.id,
+      metadata: metadata,
+      occurred_at: DateTime.utc_now()
+    })
   end
 
   defp apply_action(socket, :edit_event, %{"event_id" => id}) do

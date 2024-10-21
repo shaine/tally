@@ -7,11 +7,6 @@ defmodule TallyWeb.EventLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.header>
-        <%= @title %>
-        <:subtitle>Use this form to manage event records in your database.</:subtitle>
-      </.header>
-
       <.simple_form
         for={@form}
         id="event-form"
