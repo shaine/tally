@@ -17,7 +17,7 @@ defmodule Tally.Tracker.Event do
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:name, :occurred_at, :metric_id])
+    |> cast(attrs, [:name, :occurred_at, :metric_id, :metadata])
     |> validate_required([:occurred_at, :metric_id])
   end
 end

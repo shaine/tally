@@ -11,7 +11,14 @@
   </:actions>
 </.header>
 
-<.table id="events" rows={@streams.events}>
+<.list
+  :if={@metric.event_metadata_schema && !Enum.empty?(@metric.event_metadata_schema)}
+  title="Event Metadata"
+>
+  <:item :for={item <- @metric.event_metadata_schema} title={item.field}><%= item.type %></:item>
+</.list>
+
+<.table id="events" title="Events" rows={@streams.events}>
   <:col :let={{_id, event}} label="Name"><%= event.name %></:col>
   <:col :let={{_id, event}} label="Occurred at"><%= event.occurred_at %></:col>
   <:action :let={{_id, event}}>
@@ -58,5 +65,6 @@
     action={@live_action}
     event={@event}
     patch={~p"/metrics/#{@metric}"}
+    metric={@metric}
   />
 </.modal>

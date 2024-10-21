@@ -461,6 +461,7 @@ defmodule TallyWeb.CoreComponents do
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
+  attr :title, :string, required: false, default: ""
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -479,8 +480,10 @@ defmodule TallyWeb.CoreComponents do
       end
 
     ~H"""
-    <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
-      <table class="w-[40rem] mt-11 sm:w-full">
+    <div class="overflow-y-auto px-4 mt-11 sm:overflow-visible sm:px-0">
+      <h2 :if={@title}><%= @title %></h2>
+
+      <table class="w-[40rem] sm:w-full">
         <thead class="text-sm text-left leading-6 text-zinc-500">
           <tr>
             <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>
@@ -535,6 +538,8 @@ defmodule TallyWeb.CoreComponents do
         <:item title="Views"><%= @post.views %></:item>
       </.list>
   """
+  attr :title, :string, required: false, default: ""
+
   slot :item, required: true do
     attr :title, :string, required: true
   end
@@ -542,6 +547,7 @@ defmodule TallyWeb.CoreComponents do
   def list(assigns) do
     ~H"""
     <div class="mt-14">
+      <h2 :if={@title}><%= @title %></h2>
       <dl class="-my-4 divide-y divide-zinc-100">
         <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
           <dt class="w-1/4 flex-none text-zinc-500"><%= item.title %></dt>

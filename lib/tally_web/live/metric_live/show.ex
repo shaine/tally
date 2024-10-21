@@ -3,6 +3,7 @@ defmodule TallyWeb.MetricLive.Show do
 
   alias Tally.Tracker
   alias Tally.Tracker.Event
+  alias Tally.Tracker.Metric
 
   @impl true
   def mount(_params, _session, socket) do
@@ -28,10 +29,12 @@ defmodule TallyWeb.MetricLive.Show do
     |> assign(:page_title, "Show Metric")
   end
 
-  defp apply_action(socket, :new_event, %{"id" => id}) do
+  defp apply_action(%{assigns: %{metric: metric}} = socket, :new_event, _params) do
+    metadata = Metric.event_metadata(metric)
+
     socket
     |> assign(:page_title, "New Event")
-    |> assign(:event, %Event{metric_id: id})
+    |> assign(:event, %Event{metric_id: metric.id, metadata: metadata})
   end
 
   defp apply_action(socket, :edit_event, %{"event_id" => id}) do
@@ -43,6 +46,11 @@ defmodule TallyWeb.MetricLive.Show do
   @impl true
   def handle_info({TallyWeb.EventLive.FormComponent, {:saved, event}}, socket) do
     {:noreply, stream_insert(socket, :events, event)}
+  end
+
+  @impl true
+  def handle_info({TallyWeb.MetricLive.FormComponent, {:saved, metric}}, socket) do
+    {:noreply, assign(socket, :metric, metric)}
   end
 
   @impl true

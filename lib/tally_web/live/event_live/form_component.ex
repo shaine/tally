@@ -19,9 +19,19 @@ defmodule TallyWeb.EventLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:metric_id]} type="hidden" />
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:occurred_at]} type="datetime-local" label="Occurred at" />
+
+        <%= for {field, %{"type" => type, "value" => value}} <- @form[:metadata].value do %>
+          <.input
+            name={"#{@form[:metadata].name}[#{field}][value]"}
+            label={field}
+            value={value}
+            type={input_type_for("#{type}")}
+          />
+          <.input name={"#{@form[:metadata].name}[#{field}][type]"} value={type} type="hidden" />
+        <% end %>
+
         <:actions>
           <.button phx-disable-with="Saving...">Save Event</.button>
         </:actions>
@@ -29,6 +39,10 @@ defmodule TallyWeb.EventLive.FormComponent do
     </div>
     """
   end
+
+  defp input_type_for("integer"), do: :number
+  defp input_type_for("string"), do: :text
+  defp input_type_for(_), do: :unknown
 
   @impl true
   def update(%{event: event} = assigns, socket) do
@@ -43,6 +57,7 @@ defmodule TallyWeb.EventLive.FormComponent do
   @impl true
   def handle_event("validate", %{"event" => event_params}, socket) do
     changeset = Tracker.change_event(socket.assigns.event, event_params)
+
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
@@ -65,8 +80,8 @@ defmodule TallyWeb.EventLive.FormComponent do
     end
   end
 
-  defp save_event(socket, :new_event, event_params) do
-    case Tracker.create_event(event_params) do
+  defp save_event(%{assigns: %{metric: metric}} = socket, :new_event, event_params) do
+    case Tracker.create_event(Map.put(event_params, "metric_id", metric.id)) do
       {:ok, event} ->
         notify_parent({:saved, event})
 
